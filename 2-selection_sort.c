@@ -36,11 +36,11 @@ void selection_sort(int *array, size_t size)
 			{
 				min_idx = j;
 			}
-			if (min_idx != i)
-			{
-				swap(&array[i], &array[min_idx]);
-				print_array(array, size);
-			}
+		}
+		if (min_idx != i)
+		{
+			swap(&array[i], &array[min_idx]);
+			print_array(array, size);
 		}
 	}
 }
