@@ -1,49 +1,53 @@
+#include <stdio.h>
 #include "sort.h"
+#include <stdlib.h>
 
 /**
-  * insertion_sort_list -
-  * @list: an unsorted doubly linked list
-  *
-  * Return: no return
-  */
+ * insertion_sort_list - Sorts a doubly linked list of
+ *                       integers in ascending
+ *                       order using the insertion sort algorithm
+ * @list: Pointer to the head of the doubly linked list
+ */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *current = NULL;
+	listint_t *current, *next_node, *temp;
 
-	if (*list == NULL)
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
 	{
 		return;
 	}
 
-	current = *list;
-	while (current->next != NULL)
+	current = (*list)->next;
+
+	while (current != NULL)
 	{
-		listint_t *inverser = NULL;
+		next_node = current->next;
 
-		inverser = current->prev;
-		while (inverser != NULL)
+		while (current->prev != NULL && current->prev->n > current->n)
 		{
-			if (inverser->n > current->n)
-			{
-				current->prev->next = current->next;
-				current->next->prev = current->prev;
+			temp = current->prev;
 
-				current->next = inverser;
-				if (inverser->prev == NULL)
-				{
-					inverser->prev = current;
-					current->prev = NULL;
-					*list = current;
-					print_list(*list);
-					continue;
-				}
-				current->prev = inverser->prev;
-				inverser->prev->next = current;
-				inverser->prev->next = current;
-				print_list(*list);
+			/* Swap the nodes */
+			temp->next = current->next;
+			if (current->next != NULL)
+			{
+				current->next->prev = temp;
 			}
-			inverser = inverser->prev;
+
+			current->next = temp;
+			current->prev = temp->prev;
+			temp->prev = current;
+
+			if (current->prev != NULL)
+			{
+				current->prev->next = current;
+			}
+			else
+			{
+				*list = current;
+			}
+			print_list(*list);
 		}
-		current = current->next;
+		current = next_node;
 	}
 }
